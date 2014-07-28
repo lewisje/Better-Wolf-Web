@@ -6,7 +6,7 @@ GM_registerMenuCommand("Clear blocked users list", GM_deleteValue("blocked_users
 GM_registerMenuCommand("Set watched keywords",
   function() {
     'use strict';
-    var current_keywords = GM_getValue("keywords", "nsfw");
+    var current_keywords = GM_getValue("keywords", "nsfw, official, tww");
     var new_keywords = prompt("Enter a comma-separated list of keywords to watch for and highlight.", current_keywords);
 
     new_keywords = new_keywords.split(",");

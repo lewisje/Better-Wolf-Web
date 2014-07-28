@@ -1,6 +1,7 @@
 // Author: Ryan Greenberg (ryan@ischool.berkeley.edu)
 // Date: September 3, 2009
 // Version: $Id: gm_jq_xhr.js 240 2009-11-03 17:38:40Z ryan $
+// Adapted for strict mode by James Lewis 2014-07-28 01:51:40Z 
 
 // This allows jQuery to make cross-domain XHR by providing
 // a wrapper for GM_xmlhttpRequest. The difference between

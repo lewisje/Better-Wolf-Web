@@ -52,8 +52,9 @@ if (window.top !== window.self) {
       threadList = scaffoldThreads();
       break;
     case '/message_topic.aspx':
-      postsInThread = scaffoldThread()[0];
-      usersInthread = scaffoldThread()[1];
+      threadScaffold = scaffoldThread();
+      postsInThread = threadScaffold[0];
+      usersInthread = threadScaffold[1];
       break;
     case '/user_info.aspx':
       currentUser = scaffoldUserProfile();

@@ -25,7 +25,8 @@ function dailymotionEmbed(videoID) {
     '?foreground=%23FFFFFF&amp;highlight=%23DD0000&amp;background=%23660000&amp;related=1&amp;explicit=1&amp;loadRelatedInPlace=1"';
   return '<object type="application/x-shockwave-flash" class="dailymotion_video" width="560" height="315" data=' +
     videoURL + '><param name="movie" value=' + videoURL +
-    ' /><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="wmode" value="transparent" /><embed class="dailymotion_video" type="application/x-shockwave-flash" src=' +
+    ' /><param name="allowFullScreen" value="true" /><param name="allowScriptAccess" value="always" /><param name="wmode" value="transparent" />' +
+    '<embed class="dailymotion_video" type="application/x-shockwave-flash" src=' +
     videoURL + ' width="560" height="315" wmode="transparent" allowfullscreen="true" allowscriptaccess="always"></embed></object>';
 }
 function facebookEmbed(videoID) {
@@ -43,6 +44,12 @@ function myspaceEmbed(videoID) {
     '><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent" /><param name="movie" value=' +
     videoURL + ' /><embed class="myspace_video" src=' + videoURL +
     ' width="425" height="360" allowFullScreen="true" type="application/x-shockwave-flash" wmode="transparent"></embed></object>';
+}
+function vimeoEmbed(videoID){
+  'use strict';
+  var videoURL = '"https://player.vimeo.com/video/' + videoID + '?color=660000"';
+  return '<iframe src="' + videoURL + '" width="480" height="360" frameborder="0" webkitallowfullscreen="webkitallowfullscreen"' +
+  ' mozallowfullscreen="mozallowfullscreen" allowfullscreen="allowfullscreen" scrolling="no" seamless="seamless"></iframe>';
 }
 
 function youtubeListEmbed(listID) {
@@ -78,46 +85,51 @@ function applyMediaEnhancements() {
       '&amp;buttoncolor=ffffff&amp;buttonovercolor=ff9999&amp;textcolor=ffffff" type="application/x-shockwave-flash" allowscriptaccess="always" width="560" height="20"></embed></object>' +
       '<br /><a href="' + mp3LinkURL + '" class="plain mp3_link" title="Download this MP3" rel="nofollow">Download this MP3</a>');
   });
- //YouTube support, including embed links, youtu.be, and playlists
+ // YouTube support, including embed links, youtu.be, and playlists
   messageLinks.filter('a[href*="youtube.com/watch"]').each(function () {
     var videoLink = $(this).attr("href"), videoID = videoLink.replace(/^[^v]+v.(.{11}).*/, "$1");
-    var listTest = videoLink.replace(/^.*list=(PL[A-F0-9]{16}).*/,"$1");
+    var listTest = videoLink.replace(/^.*list=(PL[A-F\d]{16}).*/,"$1");
     var listCode = (listTest !== videoLink ? "listType=playlist&amp;list=" + listTest : "version=2") + "&amp;";
-    $(this).replaceWith(youtubeEmbed(videoID, listCode));
+    if (listCode || videoID) $(this).replaceWith(youtubeEmbed(videoID, listCode));
   });
   messageLinks.filter('a[href*="youtube.com/embed"]').each(function () {
-    var videoLink = $(this).attr("href"), videoID=videoLink.replace(/^[^d]+d.(.{11}).*/, "$1");
-    var listTest = videoLink.replace(/^.*list=(PL[A-F0-9]{16}).*/,"$1");
+    var videoLink = $(this).attr("href"), videoID = videoLink.replace(/^[^d]+d.(.{11}).*/, "$1");
+    var listTest = videoLink.replace(/^.*list=(PL[A-F\d]{16}).*/,"$1");
     var listCode = (listTest !== videoLink ? "listType=playlist&amp;list=" + listTest : "version=2") + "&amp;";
-    $(this).replaceWith(youtubeEmbed(videoID,listCode));
+    if (listCode || videoID) $(this).replaceWith(youtubeEmbed(videoID,listCode));
   });
   messageLinks.filter('a[href*="youtu.be"]').each(function () {
     var videoID = $(this).attr("href").replace(/^[^e]+be.(.{11}).*/, "$1");
-    $(this).replaceWith(youtubeEmbed(videoID, "version=2&amp;"));
+    if (videoID) $(this).replaceWith(youtubeEmbed(videoID, "version=2&amp;"));
   });
-  //YouTube playlists
+  // YouTube playlists
   messageLinks.filter('a[href*="youtube.com/playlist"]').each(function () {
-    var listID = $(this).attr("href").replace(/^.*=PL([A-F0-9]{16})$/, "$1");
-    $(this).replaceWith(youtubeListEmbed(listID));
+    var listID = $(this).attr("href").replace(/^.*=PL([A-F\d]{16})$/, "$1");
+    if (listID) $(this).replaceWith(youtubeListEmbed(listID));
   });
   messageLinks.filter('a[href*="youtube.com/course"]').each(function () {
-    var listID = $(this).attr("href").replace(/^.*=PL([A-F0-9]{16})$/, "$1");
-    $(this).replaceWith(youtubeListEmbed(listID));
+    var listID = $(this).attr("href").replace(/^.*=PL([A-F\d]{16})$/, "$1");
+    if (listID) $(this).replaceWith(youtubeListEmbed(listID));
   });
-  //DailyMotion support
+  // DailyMotion support
   messageLinks.filter('a[href*="dailymotion.com/video"]').each(function () {
     var videoID = $(this).attr("href").replace(/^[^e]+eo.(.{6}).*/, "$1");
-    $(this).replaceWith(dailymotionEmbed(videoID));
+    if (videoID) $(this).replaceWith(dailymotionEmbed(videoID));
   });
-  //Facebook support
+  // Facebook support
   messageLinks.filter('a[href*="facebook.com/video"]').each(function () {
-    var videoID = $(this).attr("href").replace(/^[^?]+\?v.([0-9]*).*/, "$1");
-    $(this).replaceWith(facebookEmbed(videoID));
+    var videoID = $(this).attr("href").replace(/^[^?]+\?v.(\d*).*/, "$1");
+    if (videoID) $(this).replaceWith(facebookEmbed(videoID));
   });
-  //MySpace support (disabled for now)
+  // MySpace support (disabled for now)
   //messageLinks.filter('a[href*="myspace.com/video"]').each(function () {
   //  var videoID = $(this).attr("href").replace(/^.*\/(\d*)$/, "$1");
   //  $(this).replaceWith(myspaceEmbed(videoID));
   //});
+  // Vimeo support
+  messageLinks.filter('a[href*="vimeo.com/"]').each(function () {
+    var videoID = $(this).attr("href").replace(/^.*vimeo\.com\/(\d*).*/, "$1");
+    if (videoID) $(this).replaceWith(vimeoEmbed(videoID));
+  });
   disableAutostart();
 }

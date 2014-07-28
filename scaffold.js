@@ -311,7 +311,7 @@ function parseImagesInThread() {
   
   allThreadImages.filter("[width=15], [height=15]").addClass('tww_smiley');
   allThreadImages.filter("img[border=0]").addClass('post_image');
-  var probablyLinkedPhotos = allThreadImages.not('.tww_smiley').not('.post_image').filter('href*=photos').addClass('photo_post_image');
+  var probablyLinkedPhotos = allThreadImages.not('.tww_smiley').not('.post_image').filter('a[href*="photos"]').addClass('photo_post_image');
 
   probablyLinkedPhotos.each(function () {
     var linkedPhoto = $(this);

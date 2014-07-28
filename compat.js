@@ -413,16 +413,16 @@ if (typeof GM_xmlhttpRequest !== 'function') {
         responseHeaders: (xmlhttp.readyState === 4 ? xmlhttp.getAllResponseHeaders() : ''),
         status: (xmlhttp.readyState === 4 ? xmlhttp.status : 0),
         statusText: (xmlhttp.readyState === 4 ? xmlhttp.statusText : '')
-      }
-      if (details["onreadystatechange"]) {
-        details["onreadystatechange"](responseState);
+      };
+      if (details.onreadystatechange) {
+        details.onreadystatechange(responseState);
       }
       if (xmlhttp.readyState === 4) {
-        if (details["onload"] && xmlhttp.status >= 200 && xmlhttp.status < 300) {
-          details["onload"](responseState);
+        if (details.onload && xmlhttp.status >= 200 && xmlhttp.status < 300) {
+          details.onload(responseState);
         }
-        if (details["onerror"] && (xmlhttp.status < 200 || xmlhttp.status >= 300)) {
-          details["onerror"](responseState);
+        if (details.onerror && (xmlhttp.status < 200 || xmlhttp.status >= 300)) {
+          details.onerror(responseState);
         }
       }
     });
@@ -430,9 +430,9 @@ if (typeof GM_xmlhttpRequest !== 'function') {
       //cannot do cross domain
       xmlhttp.open(details.method, details.url);
     } catch(e) {
-      if (details["onerror"]) {
+      if (details.onerror) {
         //simulate a real error
-        details["onerror"]({
+        details.onerror({
           responseXML: '',
           responseText: '',
           readyState: 4,

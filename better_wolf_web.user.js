@@ -7,13 +7,15 @@
 // @include       https?://*.thewolfweb.com/*
 // @include       https?://*.brentroad.com/*
 // @exclude       https?://site3.thewolfweb.com/*
+// @require       https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js
+// @require       https://raw.githubusercontent.com/douglascrockford/JSON-js/master/cycle.js
 // @require       https://code.jquery.com/jquery-1.11.1.min.js
 // @require       https://code.jquery.com/jquery-migrate-1.2.1.min.js
-// @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/bww.utils.js
-// @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/bww.commands.js
-// @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/bww.blocking.js
-// @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/scaffold.js
-// @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/gm_jq_xhr.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.utils.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.commands.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.blocking.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/scaffold.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/gm_jq_xhr.js
 // ==/UserScript==
 
 if (window.top !== window.self) {

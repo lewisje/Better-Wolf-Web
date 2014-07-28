@@ -12,6 +12,7 @@
 // @require       https://code.jquery.com/jquery-1.11.1.min.js
 // @require       https://code.jquery.com/jquery-migrate-1.2.1.min.js
 // @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.utils.js
+// @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.media.js
 // @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.commands.js
 // @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.blocking.js
 // @require       https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/scaffold.js

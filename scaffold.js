@@ -12,7 +12,7 @@ User.prototype.userLink = function() {
   userLink.addClass("user_link");
   userLink.text(this.username);
   return userLink;
-}
+};
 
 User.prototype.postsLink = function() {
   'use strict';
@@ -21,7 +21,7 @@ User.prototype.postsLink = function() {
   postsLink.attr("title", "Search for " + userName + "'s posts");
   postsLink.attr("href","message_search.aspx?type=posts&amp;username=" + encodeURI(userName));
   return postsLink;
-}
+};
 
 function Post(postid, text, author, authorid) {
   'use strict';

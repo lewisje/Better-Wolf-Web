@@ -179,7 +179,7 @@ if (typeof GM_registerMenuCommand !== 'function') {
 }
 
 function doGMMeenoo() {
-  'use strict'
+  'use strict';
   if (!GM_falsifiedMenuCom.length) return;
   //create a menu of commands in the top corner
   var foo = document.getElementById('GM_Falsify_me'), fs, fm, fal, bar, baz, bing, bf, bb,

@@ -16,44 +16,41 @@
 // @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/gm_jq_xhr.js
 // ==/UserScript==
 
-;(function () {
-  'use strict';
-  if (window.top !== window.self) {
-    $.noop(); // Don't run the script if the page is in an IFRAME.
-  } else {
-    debugMode = GM_getValue("debug_mode", false);
+if (window.top !== window.self) {
+  $.noop(); // Don't run the script if the page is in an iframe.
+} else {
+  debugMode = GM_getValue('debug_mode', false);
 
-	if (debugMode) {
-		console.group("Better Wolf Web");
-		console.time("Overall script execution");
-	}
+  if (debugMode) {
+    console.group('Better Wolf Web');
+    console.time('Overall script execution');
+  }
 
-	scaffoldCommonElements();
+  scaffoldCommonElements();
 
-	switch(location.pathname) {
-		case "/message.aspx":
-			threadList = scaffoldMessageBoards();
-			break;
-		case "/message_section.aspx":
-			threadList = scaffoldThreads();
-			break;
-		case "/message_topic.aspx":
-			postsInThread = scaffoldThread()[0]; // Firefox supports multiple returns.
-			usersInthread = scaffoldThread()[1];
-			break;
-		case "/user_info.aspx":
-			currentUser = scaffoldUserProfile();
-			break;
-		case "/user_settings.aspx":
-			scaffoldSettingsPage();
-			break;
-		default:
-			break;
-	}
+  switch(location.pathname) {
+    case '/message.aspx':
+      threadList = scaffoldMessageBoards();
+      break;
+    case '/message_section.aspx':
+      threadList = scaffoldThreads();
+      break;
+    case '/message_topic.aspx':
+      postsInThread = scaffoldThread()[0];
+      usersInthread = scaffoldThread()[1];
+      break;
+    case '/user_info.aspx':
+      currentUser = scaffoldUserProfile();
+      break;
+    case '/user_settings.aspx':
+      scaffoldSettingsPage();
+      break;
+    default:
+      break;
+  }
 
-	if (debugMode) {
-		document.title += " - Debugging";
-		console.groupEnd("Better Wolf Web");
-	}
+  if (debugMode) {
+    document.title += ' - Debugging';
+    console.groupEnd('Better Wolf Web');
+  }
 }
-}());

@@ -51,7 +51,7 @@ function checkLogin() {
    * path to the element we want.
    */
   var userNameElement = document.evaluate('/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/b',
-    document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue, userText;
 
   /*
    * If the element containing the username is found, return the text value of
@@ -63,14 +63,15 @@ function checkLogin() {
      * again later.
      */
     $(userNameElement).attr("id", "username");
+    userText = $(userNameElement).text();
 
-    GM_setValue("username", $(userNameElement).text());
+    GM_setValue("username", userText);
     if (debugMode) {
       console.log("Logged in as " + GM_getValue("username"));
     }
-  } else {
-    return;
+    return userText;
   }
+  return false;
 }
 
 function createWolfLink() {
@@ -181,7 +182,7 @@ function scaffoldMessageBoards() {
   });
 
   buildSearchForm();
-  blockUsersInboardList();
+  blockUsersInBoardList();
 
   if (debugMode) {
     console.timeEnd("Scaffolding section rows");
@@ -334,7 +335,7 @@ function scaffoldPost(post) {
   }
 
   var postBackgroundColor = post.attr("bgcolor"), postCells = post.children(), authorCell = postCells.eq(0);
-debugger;
+  //debugger;
   /*
    * Assign unique IDs to each post row based on the post's own ID, which
    * comes from its anchor.

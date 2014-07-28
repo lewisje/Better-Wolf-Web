@@ -293,7 +293,7 @@ function getRecoverableString(oVar,notFirst) {
       }
       this.tempLock = true;
       var retVal = '[';
-      for (var i = 0; i < this.length; i++) {
+      for (i = 0; i < this.length; i++) {
         retVal += (i ? ',' :'') + getRecoverableString(this[i], true);
       }
       retVal += ']';

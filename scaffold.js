@@ -203,7 +203,7 @@ function scaffoldThreads() {
   var parameters = JSON.parse(GM_getValue("current_parameters"));
 
   // Which section are we viewing?
-  var sectionID = parameters["section"];
+  var sectionID = parameters.section;
   GM_setValue("current_section_id", sectionID);
   GM_setValue("current_section", $("#ctl00_section > option[selected='true']").text().trim());
   $(window).unload(function () {
@@ -404,7 +404,7 @@ function scaffoldPost(post) {
  * Scaffolds a thread.
  */
 function scaffoldThread() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding thread");
   }
@@ -413,11 +413,11 @@ function scaffoldThread() {
   GM_deleteValue("current_thread_id");
   GM_deleteValue("current_thread_page");
 
-  var parameters = JSON.parse(GM_getValue("current_parameters")), threadID = parameters["topic"];
+  var parameters = JSON.parse(GM_getValue("current_parameters")), threadID = parameters.topic;
   GM_setValue("current_thread_id", threadID); // TODO: Necessary?
 
-  if (parameters["page"] !== undefined) {
-    GM_setValue("current_thread_page", parameters["page"]);
+  if (parameters.page !== undefined) {
+    GM_setValue("current_thread_page", parameters.page);
   } else {
     GM_setValue("current_thread_page", 1);
   }
@@ -536,8 +536,8 @@ function wolfWebDialog(id, title, content) {
   return '<table id="' + id +
    '" class="bar tww_script_dialog" cellspacing="0" cellpadding="3" style="position: absolute; z-index: 50; display: none;">' +
    '<thead><tr><th style="text-align: left;">' + title + '</th></tr></thead><tbody><tr><td>' +
-   '<table class="inbar" cellspacing="0" cellpadding="5" style="width: 100%;"><tbody>' + '<tr><td><div id="'
-   + id + '_content">' + content + '</div></td></tr></tbody></table></td></tr></tbody></table>';
+   '<table class="inbar" cellspacing="0" cellpadding="5" style="width: 100%;"><tbody>' + '<tr><td><div id="' +
+   id + '_content">' + content + '</div></td></tr></tbody></table></td></tr></tbody></table>';
 }
 
 function scaffoldUserProfile() {
@@ -545,7 +545,7 @@ function scaffoldUserProfile() {
   if (debugMode) {
     console.groupCollapsed("Scaffolding profile");
   }
-  var parameters = JSON.parse(GM_getValue("current_parameters")), userID = parameters["user"];
+  var parameters = JSON.parse(GM_getValue("current_parameters")), userID = parameters.user;
   var userName = $("td.rightbold:contains('Username')").next().text(), currentUser = new User(userName, userID);
 
   var userProfileBody = $("#ctl00_tblInfo tbody").attr("id", "user_profile_body");

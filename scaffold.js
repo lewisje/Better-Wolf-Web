@@ -19,7 +19,7 @@ User.prototype.postsLink = function() {
   var postsLink = $(document.createElement('a'));
   postsLink.addClass("plain search_posts_link");
   postsLink.attr("title", "Search for " + userName + "'s posts");
-  postsLink.attr("href","message_search.aspx?type=posts&amp;username=" + encodeURI(userName));
+  postsLink.attr("href", "message_search.aspx?type=posts&amp;username=" + encodeURI(userName));
   return postsLink;
 };
 
@@ -344,14 +344,14 @@ function scaffoldPost(post) {
    */
   var authorCell = postCells.eq(0);
   authorCell.addClass("post_author_info");
-  var postAnchor = authorCell.children(".post_author_info > a[name]"), postID = postAnchor.attr("name");
+  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name");
 
   /*
    * Build additional links in the poster's cell: "send PM" and "view photos."
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
   
-  var userLink = authorCell.children("span.small").children("a[href*='user_info']");
+  var userLink = authorCell.children("span").children("a[href*='user_info']");
   userLink.addClass("user_link");
   var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();

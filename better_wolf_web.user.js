@@ -7,8 +7,14 @@
 // @icon        http://thewolfweb.com/favicon.ico
 // @version     2.0
 // @description Extensions for the Wolf Web
-// @match       *://*.thewolfweb.com/*
-// @match       *://*.brentroad.com/*
+// @include     http://thewolfweb.com/*
+// @include     http://*.thewolfweb.com/*
+// @include     http://brentroad.com/*
+// @include     http://*.brentroad.com/*
+// @include     https://thewolfweb.com/*
+// @include     https://*.thewolfweb.com/*
+// @include     https://brentroad.com/*
+// @include     https://*.brentroad.com/*
 // @exclude     http://site3.thewolfweb.com/*
 // @exclude     https://site3.thewolfweb.com/*
 // @require     https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js

@@ -75,5 +75,5 @@ function GM_XHR() {
 
 // Tell jQuery to use the GM_XHR object instead of the standard browser XHR
 $.ajaxSetup({
-  xhr: function(){'use strict';return new GM_XHR;}
+  xhr: function(){'use strict';return new GM_XHR();}
 });

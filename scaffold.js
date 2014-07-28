@@ -340,14 +340,13 @@ function scaffoldPost(post) {
    * comes from its anchor.
    */
   authorCell.addClass("post_author_info");
-  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name");
+  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name"),
+    userLink = authorCell.children("span").children('a[href*="user_info"]');
 
   /*
    * Build additional links in the poster's cell: "send PM" and "view photos."
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
-  
-  var userLink = authorCell.children("a[href*='user_info']");
   userLink.addClass("user_link");
   var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();
@@ -489,7 +488,7 @@ function scaffoldThread() {
   */
   removeInlineFrames();
   applyMediaEnhancements();
-  uniqueUsers = filterUniquesInArray(usersInThread);
+  var uniqueUsers = filterUniquesInArray(usersInThread);
   blockUsersInThread(uniqueUsers);
   if (debugMode) {
     consoleGroupEnd("Scaffolding thread");

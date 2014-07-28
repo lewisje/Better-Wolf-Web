@@ -173,7 +173,7 @@ function hideMsg(msg) {
     $(this).replaceWith(postContent);
     postContent.show();
   });
-};
+}
 
 
 /*

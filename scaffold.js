@@ -599,5 +599,5 @@ function scaffoldSettingsPage() {
   debugModeRow.append('<td><input type="radio" name="debug_mode" value="true">On <input type="radio" name="debug_mode" value="false"> Off</td>');
   var debugMode = GM_getValue("debug_mode", false);
   $("input[name='debug_mode'][value='" + debugMode + "']").attr("checked", "true");
-  $("#bww_settings_body").append('<tr><td align="center><input type="submit" value="Save Preferences" class="button"></td></tr>');
+  //$("#bww_settings_body").append('<tr><td align="center><input type="submit" value="Save Preferences" class="button"></td></tr>');
 }

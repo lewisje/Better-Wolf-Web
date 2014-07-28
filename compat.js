@@ -282,9 +282,10 @@ function getRecoverableString(oVar,notFirst) {
     };
     Array.prototype.toRecoverableObString = Object.prototype.toRecoverableString;
     Array.prototype.toRecoverableString = function () {
-      if (this.tempLock)return '[\'LoopBack\']';
+      if (this.tempLock) return '[\'LoopBack\']';
+      var i;
       if (!this.length) {
-        var oCountProp = 0, i;
+        var oCountProp = 0;
         for (i in this) {
           if (i !== 'toRecoverableString' && i !== 'toRecoverableObString' && i !== 'tempLockIgnoreMe' &&
               i !== 'prototype' && i !== 'constructor' && i !== 'index' && i !== 'input' && i !== 'length') oCountProp++;

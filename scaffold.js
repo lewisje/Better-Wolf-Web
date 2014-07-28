@@ -334,7 +334,7 @@ function scaffoldPost(post) {
   }
 
   var postBackgroundColor = post.attr("bgcolor"), postCells = post.children(), authorCell = postCells.eq(0);
-
+debugger;
   /*
    * Assign unique IDs to each post row based on the post's own ID, which
    * comes from its anchor.

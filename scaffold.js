@@ -50,7 +50,7 @@ function checkLogin() {
    * the top of the page. The XPath expression is ugly, but it's the quickest
    * path to the element we want.
    */
-  var userNameElement = document.evaluate('/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/b',
+  userNameElement = document.evaluate('/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/b',
     document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
   /*

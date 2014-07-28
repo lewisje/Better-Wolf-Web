@@ -404,7 +404,7 @@ function scaffoldPost(post) {
  * Scaffolds a thread.
  */
 function scaffoldThread() {
-  'use strict';
+  //'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding thread");
   }

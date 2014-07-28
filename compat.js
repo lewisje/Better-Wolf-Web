@@ -92,7 +92,7 @@ function cb_addEventListener(obj, evt, fnc) {
 if (typeof Array.prototype.indexOf !== 'function') {
   Array.prototype.indexOf = function (obj, start) {
     'use strict';
-    var i;
+    var i, j;
     for (i = (start || 0), j = this.length; i < j; i += 1) {
       if (this[i] === obj) return i;
     }

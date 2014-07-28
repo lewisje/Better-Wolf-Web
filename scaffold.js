@@ -331,29 +331,29 @@ function parseImagesInThread() {
  * Scaffolds an individual post.
  */
 function scaffoldPost(post) {
-  'use strict';
+  //'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding post");
   }
 
-  var postBackgroundColor = post.attr("bgcolor"), postCells = post.children();
+  postBackgroundColor = post.attr("bgcolor"); postCells = post.children();
 
   /*
    * Assign unique IDs to each post row based on the post's own ID, which
    * comes from its anchor.
    */
-  var authorCell = postCells.eq(0);
+  authorCell = postCells.eq(0);
   authorCell.addClass("post_author_info");
-  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name");
+  postAnchor = authorCell.children("a[name]"); postID = postAnchor.attr("name");
 
   /*
    * Build additional links in the poster's cell: "send PM" and "view photos."
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
   
-  var userLink = authorCell.children("span").children("a[href*='user_info']");
+  userLink = authorCell.children("span").children("a[href*='user_info']");
   userLink.addClass("user_link");
-  var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
+  userLinkURL = userLink.attr("href"); userID = userLinkURL.split("=")[1]; parentSpan = userLink.parent();
     userName = parentSpan.parent().children().filter("b:first").text();
   userLink.attr("title", userName);
   userLink.data("userid", userID);

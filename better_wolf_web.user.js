@@ -27,7 +27,7 @@
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/scaffold.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/gm_jq_xhr.js
 // @noframes
-// @run-at      document-end
+// @run-at      document-start
 // ==/UserScript==
 // nrequire     https://code.jquery.com/jquery-1.11.1.min.js
 // nrequire     https://code.jquery.com/jquery-migrate-1.2.1.min.js

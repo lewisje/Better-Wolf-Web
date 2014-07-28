@@ -4,9 +4,9 @@
 // @namespace     http://jlhamilt.freeshell.org/
 // @version       2.0
 // @description   Extensions for the Wolf Web
-// @include       http://*.thewolfweb.com/*
-// @include       http://*.brentroad.com/*
-// @exclude       http://site3.thewolfweb.com/*
+// @include       https?://*.thewolfweb.com/*
+// @include       https?://*.brentroad.com/*
+// @exclude       https?://site3.thewolfweb.com/*
 // @require       https://code.jquery.com/jquery-1.11.1.min.js
 // @require       https://code.jquery.com/jquery-migrate-1.2.1.min.js
 // @require       https://raw.github.com/lewisje/Better-Wolf-Web/master/bww.utils.js

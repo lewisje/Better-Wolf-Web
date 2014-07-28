@@ -199,7 +199,7 @@ function doGMMeenoo() {
   fs.padding = '2px';
   fs.overflow = 'hidden';
   fs.height = '1.3em';
-  foo.appendChild(bar = document.createElement('b'))
+  foo.appendChild(bar = document.createElement('b'));
   bar.style.cursor = 'move';
   cb_addEventListener(bar, 'click', function () {
     this.parentNode.style.left = this.parentNode.style.left ? '' : '0px';

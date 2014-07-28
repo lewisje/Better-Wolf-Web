@@ -18,8 +18,9 @@
 // @exclude     http://site3.thewolfweb.com/*
 // @exclude     https://site3.thewolfweb.com/*
 // @require     https://raw.githubusercontent.com/douglascrockford/JSON-js/master/json2.js
-// @require     https://code.jquery.com/jquery-1.11.1.min.js
-// @require     https://code.jquery.com/jquery-migrate-1.2.1.min.js
+// @require     https://code.jquery.com/jquery-1.3.2.min.js
+// norequire     https://code.jquery.com/jquery-migrate-1.2.1.min.js
+// @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/sizzle.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/compat.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.utils.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.controls.js

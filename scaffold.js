@@ -335,7 +335,7 @@ function scaffoldPost(post) {
   }
 
   var postBackgroundColor = post.attr("bgcolor"), postCells = post.children(), authorCell = postCells.eq(0);
-  //debugger;
+
   /*
    * Assign unique IDs to each post row based on the post's own ID, which
    * comes from its anchor.
@@ -348,7 +348,7 @@ function scaffoldPost(post) {
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
   
-  var userLink = authorCell.children("span").children("a[href*='user_info']");
+  var userLink = authorCell.children("span").children("a[href*='user_info']").eq(0);
   userLink.addClass("user_link");
   var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();

@@ -163,14 +163,14 @@ function scaffoldMessageBoards() {
       threadLink = boardCells.eq(3).addClass('board_last_post').children('a:first').addClass('thread_link'),
       userLink = boardCells.eq(3).children('a:last').addClass('user_link');
 
-    var sectionNum = sectionLink.attr("href").split("=");
+    var sectionNum = sectionLink.prop("href").split("=");
     sectionNum = sectionNum[1].split("&")[0];
     $(this).attr("id", "section_" + sectionNum);
     
-    var threadNum = threadLink.attr("href").split("=");
+    var threadNum = threadLink.prop("href").split("=");
     threadNum = threadNum[1].split("&")[0];
     threadLink.attr("id", "thread_" + threadNum);
-    var threadTopic = threadLink.text(), userNum = userLink.attr("href").split("=")[1];
+    var threadTopic = threadLink.text(), userNum = userLink.prop("href").split("=")[1];
     userLink.addClass("user_" + userNum);
     var userName = userLink.text();
 
@@ -249,12 +249,12 @@ function scaffoldThreads() {
     threadCells.eq(0).addClass("thread_status");
     var threadLink = threadCells.eq(1).addClass("thread_topic").children("a:first").addClass("thread_link");
     
-    var threadID = threadLink.attr("href").split("=")[1], threadTopic = threadLink.text();
+    var threadID = threadLink.prop("href").split("=")[1], threadTopic = threadLink.text();
     threadLink.parent().parent().attr("id", "thread_" + threadID);
 
     threadCells.eq(2).addClass("thread_author");
     
-    var authorLink = threadCells.eq(2).children("a:first"), userID = authorLink.attr("href").split("=")[1], userName = authorLink.text();
+    var authorLink = threadCells.eq(2).children("a:first"), userID = authorLink.prop("href").split("=")[1], userName = authorLink.text();
     authorLink.parent().parent().addClass("thread_by_" + userID);
 
     threads.push(new Thread(threadID, threadTopic, userName, userID, sectionID));
@@ -353,7 +353,7 @@ function scaffoldPost(post) {
   
   var userLink = authorCell.children("span").children("a[href*='user_info']");
   userLink.addClass("user_link");
-  var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
+  var userLinkURL = userLink.prop("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();
   userLink.attr("title", userName);
   userLink.data("userid", userID);
@@ -570,7 +570,7 @@ function scaffoldUserList() {
   $('table.inbar:last').attr("id", "users_list");
   var userRows = $('table#users_list tr');
   userRows.each(function () {
-    var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.attr("href").split('='),
+    var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.prop("href").split('='),
       userName = userLink.text(), postsCell = userRow.children().eq(3);
     if (postsCell.text() !== '0 posts') {
       postsCell.wrapInner('<a class="plain search_posts_link" title="Search for ' + userName +
@@ -599,5 +599,5 @@ function scaffoldSettingsPage() {
   debugModeRow.append('<td><input type="radio" name="debug_mode" value="true">On <input type="radio" name="debug_mode" value="false"> Off</td>');
   var debugMode = GM_getValue("debug_mode", false);
   $("input[name='debug_mode'][value='" + debugMode + "']").attr("checked", "true");
-  //$("#bww_settings_body").append('<tr><td align="center><input type="submit" value="Save Preferences" class="button"></td></tr>');
+  $("#bww_settings_body").append('<tr><td align="center><input type="submit" value="Save Preferences" class="button"></td></tr>');
 }

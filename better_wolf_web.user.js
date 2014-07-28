@@ -5,7 +5,7 @@
 // @contributor James Lewis
 // @namespace   http://jlhamilt.freeshell.org/
 // @icon        http://thewolfweb.com/favicon.ico
-// @version     2.0a
+// @version     2.01
 // @description Extensions for the Wolf Web
 // @include     http://thewolfweb.com/*
 // @include     http://*.thewolfweb.com/*

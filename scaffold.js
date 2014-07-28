@@ -331,7 +331,7 @@ function parseImagesInThread() {
  * Scaffolds an individual post.
  */
 function scaffoldPost(post) {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding post");
   }

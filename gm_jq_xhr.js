@@ -47,7 +47,7 @@ function GM_XHR() {
 
   this.send = function(data) {
     this.data = data;
-    var that = this, k;
+    var that = this;
     GM_xmlhttpRequest({
       method: this.type,
       url: this.url,
@@ -55,17 +55,17 @@ function GM_XHR() {
       data: this.data,
       onload: function(rsp) {
         // Populate wrapper object with all data returned from GM_XMLHttpRequest
-        for (k in rsp) {
+        for (var k in rsp) {
           that[k] = rsp[k];
         }
       },
       onerror: function(rsp) {
-        for (k in rsp) {
+        for (var k in rsp) {
           that[k] = rsp[k];
         }
       },
       onreadystatechange: function(rsp) {
-        for (k in rsp) {
+        for (var k in rsp) {
           that[k] = rsp[k];
         }
       }

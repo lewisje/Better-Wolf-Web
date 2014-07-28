@@ -36,7 +36,7 @@
 if (window.top !== window.self) {
   $.noop(); // Don't run the script if the page is in an iframe.
 } else {
-  debugMode = GM_getValue('debug_mode', true);
+  var debugMode = GM_getValue('debug_mode', true), threadList;
 
   if (debugMode) {
     console.group('Better Wolf Web');
@@ -53,9 +53,7 @@ if (window.top !== window.self) {
       threadList = scaffoldThreads();
       break;
     case '/message_topic.aspx':
-      threadScaffold = scaffoldThread();
-      postsInThread = threadScaffold[0];
-      usersInThread = threadScaffold[1];
+      var threadScaffold = scaffoldThread(), postsInThread = threadScaffold[0], usersInThread = threadScaffold[1];
       break;
     case '/photo_photo.aspx':
       scaffoldPhotoPage();
@@ -64,7 +62,7 @@ if (window.top !== window.self) {
       scaffoldUserList();
       break;
     case '/user_info.aspx':
-      currentUser = scaffoldUserProfile();
+      var currentUser = scaffoldUserProfile();
       break;
     case '/user_settings.aspx':
       scaffoldSettingsPage();

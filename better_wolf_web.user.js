@@ -56,6 +56,12 @@ if (window.top !== window.self) {
       postsInThread = threadScaffold[0];
       usersInthread = threadScaffold[1];
       break;
+    case '/photo_photo.aspx':
+      scaffoldPhotoPage();
+      break;
+    case '/user.aspx':
+      scaffoldUserList();
+      break;
     case '/user_info.aspx':
       currentUser = scaffoldUserProfile();
       break;

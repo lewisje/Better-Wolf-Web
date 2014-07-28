@@ -154,7 +154,7 @@ function scaffoldMessageBoards() {
     console.time("Scaffolding section rows");    
   }
 
-  sectionRows.each(function() {
+  sectionRows.each(function () {
     var boardCells = $(this).children();
     boardCells.eq(0).addClass('board_status');
     var boardName = boardCells.eq(1).addClass('board_name').children("a:first").text();
@@ -316,7 +316,7 @@ function parseImagesInThread() {
   allThreadImages.filter("img[border=0]").addClass('post_image');
   var probablyLinkedPhotos = allThreadImages.not('.tww_smiley').not('.post_image').filter('href*=photos').addClass('photo_post_image');
 
-  probablyLinkedPhotos.each(function() {
+  probablyLinkedPhotos.each(function () {
     var linkedPhoto = $(this);
     linkedPhoto.attr("src", linkedPhoto.parent().attr("href"));
     linkedPhoto.parent().replaceWith(linkedPhoto);
@@ -344,14 +344,14 @@ function scaffoldPost(post) {
    */
   var authorCell = postCells.eq(0);
   authorCell.addClass("post_author_info");
-  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name");
+  var postAnchor = authorCell.children(".post_author_info > a[name]"), postID = postAnchor.attr("name");
 
   /*
    * Build additional links in the poster's cell: "send PM" and "view photos."
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
   
-  var userLink = authorCell.children("span").children("a[href*='user_info']");
+  var userLink = authorCell.children("span.small").children("a[href*='user_info']");
   userLink.addClass("user_link");
   var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();
@@ -568,15 +568,15 @@ function scaffoldUserList() {
     console.groupCollapsed("Scaffolding user list");
   }
   $('table.inbar:last').attr("id", "users_list");
-	var userRows = $('table#users_list tr');
-	userRows.each(function () {
-		var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.attr("href").split('='),
-		  userName = userLink.text(), postsCell = userRow.children().eq(3);
-		if (postsCell.text() !== '0 posts') {
-			postsCell.wrapInner('<a class="plain search_posts_link" title="Search for ' + userName +
-			                    '\'s posts" href="message_search.aspx?type=posts&amp;username=' + encodeURI(userName) + "></a>");
-		}
-	});
+  var userRows = $('table#users_list tr');
+  userRows.each(function () {
+    var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.attr("href").split('='),
+      userName = userLink.text(), postsCell = userRow.children().eq(3);
+    if (postsCell.text() !== '0 posts') {
+      postsCell.wrapInner('<a class="plain search_posts_link" title="Search for ' + userName +
+                          '\'s posts" href="message_search.aspx?type=posts&amp;username=' + encodeURI(userName) + "></a>");
+    }
+  });
   if (debugMode) {
     console.groupEnd("Scaffolding user list");
   }

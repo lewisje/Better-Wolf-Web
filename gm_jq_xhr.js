@@ -71,7 +71,7 @@ function GM_XHR() {
       }
     });
   };
-};
+}
 
 // Tell jQuery to use the GM_XHR object instead of the standard browser XHR
 $.ajaxSetup({

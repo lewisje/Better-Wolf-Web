@@ -1,12 +1,12 @@
 function User(username, userid) {
-  //'use strict';
+  'use strict';
   this.username = username;
   this.userid = parseInt(userid, 10);
 }
 
 User.prototype.userLink = function() {
-  //'use strict';
-  userLink = $(document.createElement('a'));
+  'use strict';
+  var userLink = $(document.createElement('a'));
   userLink.attr("href", "user_info.aspx?user=" + this.userid);
   userLink.attr("title", this.username);
   userLink.addClass("user_link");
@@ -15,8 +15,8 @@ User.prototype.userLink = function() {
 };
 
 User.prototype.postsLink = function() {
-  //'use strict';
-  postsLink = $(document.createElement('a'));
+  'use strict';
+  var postsLink = $(document.createElement('a'));
   postsLink.addClass("plain search_posts_link");
   postsLink.attr("title", "Search for " + userName + "'s posts");
   postsLink.attr("href", "message_search.aspx?type=posts&amp;username=" + encodeURI(userName));
@@ -24,14 +24,14 @@ User.prototype.postsLink = function() {
 };
 
 function Post(postid, text, author, authorid) {
-  //'use strict';
+  'use strict';
   this.id = postid;
   this.text = text;
   this.author = new User(author, authorid);
 }
 
 function Thread(threadid, topic, author, authorid, section) {
-  //'use strict';
+  'use strict';
   this.id = threadid;
   this.topic = topic;
   this.author = author;
@@ -44,13 +44,13 @@ function Thread(threadid, topic, author, authorid, section) {
  * name for future use.
  */
 function checkLogin() {
-  //'use strict';
+  'use strict';
   /*
    * Currently, the logged-in user's username only appears in a B element at
    * the top of the page. The XPath expression is ugly, but it's the quickest
    * path to the element we want.
    */
-  userNameElement = document.evaluate('/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/b',
+  var userNameElement = document.evaluate('/html/body/table/tbody/tr/td/table/tbody/tr[2]/td/b',
     document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
 
   /*
@@ -74,8 +74,8 @@ function checkLogin() {
 }
 
 function createWolfLink() {
-  //'use  strict';
-  wolflink = $('a').eq(0).attr("id", "wolflink"); logo = wolflink.children("img").attr("id", "logo");
+  'use strict';
+  var wolflink = $('a').eq(0).attr("id", "wolflink"), logo = wolflink.children("img").attr("id", "logo");
   wolflink.replaceWith(logo);
   logo.after(wolfWebDialog('blocked_users_dialog', 'Blocked users', ''));
   logo.bind("click", function() {
@@ -90,7 +90,7 @@ function createWolfLink() {
  * well as some standard script set-up.
  */
 function scaffoldCommonElements() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Common elements");
   }
@@ -109,7 +109,7 @@ function scaffoldCommonElements() {
  * Parses the message boards list (message.aspx).
  */
 function scaffoldMessageBoards() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Message Boards");
   }
@@ -118,7 +118,7 @@ function scaffoldMessageBoards() {
    * First, identify the table containing the list of sections and add an ID
    * to it in case someone wants it later.
    */
-  sectionsTable = $("table.inbar"); threadList = [];
+  var sectionsTable = $("table.inbar"), threadList = [];
   sectionsTable.attr("id", "tww_sections");
 
   /* 
@@ -130,13 +130,13 @@ function scaffoldMessageBoards() {
    *
    * TODO: Replace the header row's TD elements with TH elements.
    */
-  sectionsTableHead = $(document.createElement("thead"));
+  var sectionsTableHead = $(document.createElement("thead"));
   sectionsTableHead.attr("id", "tww_sections_header");
-  sectionsTableBody = $("#tww_sections > tbody");
+  var sectionsTableBody = $("#tww_sections > tbody");
   sectionsTableBody.attr("id", "tww_sections_body");
   sectionsTableBody.before(sectionsTableHead);
 
-  sectionsTableHeaderRow = $("#tww_sections_body > tr:first-child");
+  var sectionsTableHeaderRow = $("#tww_sections_body > tr:first-child");
   sectionsTableHeaderRow.attr("id", "tww_sections_header_row");
   sectionsTableHeaderRow.remove().appendTo(sectionsTableHead);
 
@@ -147,7 +147,7 @@ function scaffoldMessageBoards() {
    * TODO: Add ID attributes to the rows signifying which message board
    * section they represent.
    */
-  sectionRows = $("#tww_sections_body > tr");
+  var sectionRows = $("#tww_sections_body > tr");
   sectionRows.addClass("tww_section");
 
   if (debugMode) {
@@ -155,24 +155,23 @@ function scaffoldMessageBoards() {
   }
 
   sectionRows.each(function () {
-    boardCells = $(this).children();
+    var boardCells = $(this).children();
     boardCells.eq(0).addClass('board_status');
-    boardName = boardCells.eq(1).addClass('board_name').children("a:first").text();
+    var boardName = boardCells.eq(1).addClass('board_name').children("a:first").text();
     boardCells.eq(2).addClass('board_topics');
-    sectionLink = boardCells.eq(1).children("a:first");
-      threadLink = boardCells.eq(3).addClass('board_last_post').children('a:first').addClass('thread_link');
-      userLink = boardCells.eq(3).children('a:last').addClass('user_link');
-
+    var sectionLink = boardCells.eq(1).children("a:first"),
+      threadLink = boardCells.eq(3).addClass('board_last_post').children('a:first').addClass('thread_link'),
+      userLink = boardCells.eq(3).children('a:last').addClass('user_link'),
       sectionNum = sectionLink.attr("href").split("=");
     sectionNum = sectionNum[1].split("&")[0];
     $(this).attr("id", "section_" + sectionNum);
     
-    threadNum = threadLink.attr("href").split("=");
+    var threadNum = threadLink.attr("href").split("=");
     threadNum = threadNum[1].split("&")[0];
     threadLink.attr("id", "thread_" + threadNum);
-    threadTopic = threadLink.text(); userNum = userLink.attr("href").split("=")[1];
+    var threadTopic = threadLink.text(), userNum = userLink.attr("href").split("=")[1];
     userLink.addClass("user_" + userNum);
-    userName = userLink.text();
+    var userName = userLink.text();
 
     boardCells.eq(4).addClass('board_moderators').children('a').addClass('user_link');
 
@@ -196,14 +195,12 @@ function scaffoldMessageBoards() {
  * Scaffolds a message board section's thread list.
  */
 function scaffoldThreads() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding threads");
   }
-  parameters = JSON.parse(GM_getValue("current_parameters"));
-
   // Which section are we viewing?
-  sectionID = parameters.section;
+  var parameters = JSON.parse(GM_getValue("current_parameters")), sectionID = parameters.section;
   GM_setValue("current_section_id", sectionID);
   GM_setValue("current_section", $("#ctl00_section > option[selected='true']").text().trim());
   $(window).unload(function () {
@@ -216,16 +213,16 @@ function scaffoldThreads() {
    *
    * TODO: Replace the header row's TD elements with TH elements.
    */
-  threadTable = $("table.inbar");
+  var threadTable = $("table.inbar");
   threadTable.attr("id", "tww_thread_table");
 
-  threadTableBody = $("#tww_thread_table > tbody");
+  var threadTableBody = $("#tww_thread_table > tbody");
   threadTableBody.attr("id", "tww_thread_table_body");
 
-  threadTableHeaderRow = $("#tww_thread_table_body > tr:first-child");
+  var threadTableHeaderRow = $("#tww_thread_table_body > tr:first-child");
   threadTableHeaderRow.attr("id", "tww_thread_table_header_row");
 
-  threadTableHead = $(document.createElement("thead"));
+  var threadTableHead = $(document.createElement("thead"));
   threadTableHead.attr("id", "tww_thread_table_header");
   threadTableBody.before(threadTableHead);
 
@@ -234,7 +231,7 @@ function scaffoldThreads() {
   /* And again, we add classes to each of the rows we're actually interested
    * in to reflect that they contain thread information.
    */
-  threadRows = $("#tww_thread_table_body > tr").addClass("tww_thread_row"); threads = [];
+  var threadRows = $("#tww_thread_table_body > tr").addClass("tww_thread_row"), threads = [];
 
   if (debugMode) {
     console.time("Scaffolding threads");
@@ -245,16 +242,16 @@ function scaffoldThreads() {
    * code takes the longest to run. :P
    */
   threadRows.each(function() {
-    threadRow = $(this); threadCells = threadRow.children();
+    var threadRow = $(this), threadCells = threadRow.children();
     threadCells.eq(0).addClass("thread_status");
-    threadLink = threadCells.eq(1).addClass("thread_topic").children("a:first").addClass("thread_link");
-    
-    threadID = threadLink.attr("href").split("=")[1]; threadTopic = threadLink.text();
+    var threadLink = threadCells.eq(1).addClass("thread_topic").children("a:first").addClass("thread_link"),
+      threadID = threadLink.attr("href").split("=")[1], threadTopic = threadLink.text();
     threadLink.parent().parent().attr("id", "thread_" + threadID);
 
     threadCells.eq(2).addClass("thread_author");
     
-    authorLink = threadCells.eq(2).children("a:first"); userID = authorLink.attr("href").split("=")[1]; userName = authorLink.text();
+    var authorLink = threadCells.eq(2).children("a:first"), userID = authorLink.attr("href").split("=")[1],
+      userName = authorLink.text();
     authorLink.parent().parent().addClass("thread_by_" + userID);
 
     threads.push(new Thread(threadID, threadTopic, userName, userID, sectionID));
@@ -309,15 +306,15 @@ function scaffoldThreads() {
 // photo gallery pics, and all other images. It also protects you somewhat from
 // huge images causing horizontal scrolling.
 function parseImagesInThread() {
-  //'use strict';
-  allThreadImages = $("div.post_message_content img");
+  'use strict';
+  var allThreadImages = $("div.post_message_content img");
   
   allThreadImages.filter("[width=15], [height=15]").addClass('tww_smiley');
   allThreadImages.filter("img[border=0]").addClass('post_image');
-  probablyLinkedPhotos = allThreadImages.not('.tww_smiley').not('.post_image').filter('href*=photos').addClass('photo_post_image');
+  var probablyLinkedPhotos = allThreadImages.not('.tww_smiley').not('.post_image').filter('href*=photos').addClass('photo_post_image');
 
   probablyLinkedPhotos.each(function () {
-    linkedPhoto = $(this);
+    var linkedPhoto = $(this);
     linkedPhoto.attr("src", linkedPhoto.parent().attr("href"));
     linkedPhoto.parent().replaceWith(linkedPhoto);
   });
@@ -331,33 +328,32 @@ function parseImagesInThread() {
  * Scaffolds an individual post.
  */
 function scaffoldPost(post) {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding post");
   }
 
-  postBackgroundColor = post.attr("bgcolor"); postCells = post.children();
+  var postBackgroundColor = post.attr("bgcolor"), postCells = post.children(), authorCell = postCells.eq(0);
 
   /*
    * Assign unique IDs to each post row based on the post's own ID, which
    * comes from its anchor.
    */
-  authorCell = postCells.eq(0);
   authorCell.addClass("post_author_info");
-  postAnchor = authorCell.children("a[name]"); postID = postAnchor.attr("name");
+  var postAnchor = authorCell.children("a[name]"), postID = postAnchor.attr("name");
 
   /*
    * Build additional links in the poster's cell: "send PM" and "view photos."
    * TODO: Extend the post count as a link to search for all the users' posts.
    */
   
-  userLink = authorCell.children("span").children("a[href*='user_info']");
+  var userLink = authorCell.children("span").children("a[href*='user_info']");
   userLink.addClass("user_link");
-  userLinkURL = userLink.attr("href"); userID = userLinkURL.split("=")[1]; parentSpan = userLink.parent();
+  var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
     userName = parentSpan.parent().children().filter("b:first").text();
   userLink.attr("title", userName);
   userLink.data("userid", userID);
-  sendPM = createLink("mail_compose.aspx?user=" + userID, "send PM", {
+  var sendPM = createLink("mail_compose.aspx?user=" + userID, "send PM", {
     title: "Send " + userName + " a private message",
     classes: ["pm_link"]
   });
@@ -366,33 +362,30 @@ function scaffoldPost(post) {
   sendPM.appendTo(parentSpan);
 
   $(document.createElement("br")).appendTo(parentSpan);
-  viewPhotos = createLink("photo_folder.aspx?user=" + userID, "view photos", {
+  var viewPhotos = createLink("photo_folder.aspx?user=" + userID, "view photos", {
     title: "View " + userName + "'s photo gallery",
     classes: ["photo_gallery_link"]
   });
   viewPhotos.appendTo(parentSpan);
 
-  postContentCell = postCells.eq(1); postContent = postContentCell.html();
+  var postContentCell = postCells.eq(1), postContent = postContentCell.html();
   postContentCell.empty();
   postContentCell.addClass("post_message");
   postContentCell.prepend('<div id="content_' + postID + '" class="post_message_content content_by_' + userID + '" style="margin-top: -1em;"></div>');
-  contentDiv = $("#content_" + postID);
+  var contentDiv = $("#content_" + postID);
   contentDiv.append(postContent);
-  postFooter = contentDiv.children("p.small").remove();
+  var postFooter = contentDiv.children("p.small").remove();
   post.wrap('<tbody id="post_' + postID + '" class="tww_post post_by_' + userID + '"></tbody>');
-  postBody = $("tbody#post_" + postID);
+  var postBody = $("tbody#post_" + postID);
   postBody.addClass("post_by_" + userID);
   postBody.append('<tr id="footer_' + postID + '" class="post_footer"><td align="right"><div class="voting_links" style="float: left; display: none;"><a class="plain vote_link" style="font-size: 11px;" id="nsfw_' + postID + '">[nsfw]</a></div></td></tr>');
-  postText = contentDiv.text();
+  var postText = contentDiv.text();
   postCells.eq(0).attr("rowspan", "2");
 
   postFooter.appendTo('#footer_' + postID + ' > td:first-child').parent().css("height", "15px").attr("bgcolor", postBackgroundColor);
   postBody.appendTo("#tww_post_table");
 
-  removeInlineFrames();
-  applyMediaEnhancements();
-
-  scaffoldedPost = new Post(postID, postText, userName, userID);
+  var scaffoldedPost = new Post(postID, postText, userName, userID);
   if (debugMode) {
     console.dir(scaffoldedPost);
     console.groupEnd("Scaffolding post");
@@ -404,7 +397,7 @@ function scaffoldPost(post) {
  * Scaffolds a thread.
  */
 function scaffoldThread() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding thread");
   }
@@ -413,7 +406,7 @@ function scaffoldThread() {
   GM_deleteValue("current_thread_id");
   GM_deleteValue("current_thread_page");
 
-  parameters = JSON.parse(GM_getValue("current_parameters")); threadID = parameters.topic;
+  var parameters = JSON.parse(GM_getValue("current_parameters")), threadID = parameters.topic;
   GM_setValue("current_thread_id", threadID); // TODO: Necessary?
 
   if (parameters.page !== undefined) {
@@ -422,32 +415,32 @@ function scaffoldThread() {
     GM_setValue("current_thread_page", 1);
   }
 
-  tempParams = $('#ctl00_lnkSection').attr('href').match(/section=\d+/); sectionID = tempParams[0].split("=")[1];
+  var tempParams = $('#ctl00_lnkSection').attr('href').match(/section=\d+/), sectionID = tempParams[0].split("=")[1];
   GM_setValue("current_section_id", sectionID);
 
-  postTable = $("table.inbar").attr("id", "tww_post_table");
+  var postTable = $("table.inbar").attr("id", "tww_post_table");
   postTable.parent().parent().parent().parent().attr("id", "tww_post_table_head");
-  postRows = $("#tww_post_table > tbody > tr");
+  var postRows = $("#tww_post_table > tbody > tr");
   $("#tww_post_table_head > tr > td").eq(1).attr("id", "page_links");
 
   /*
    * Parse the thread's topic out of the TITLE element.
    */
-  threadTopic = document.title.substr(6);
+  var threadTopic = document.title.substr(6);
   /*
    * For future sharing.
-  metaTitle = $(document.createElement("meta"));
+  var metaTitle = $(document.createElement("meta"));
   metaTitle.attr("name", "title");
   metaTitle.attr("content", threadSubject);
-  metaDescr = $(document.createElement("meta"));
+  var metaDescr = $(document.createElement("meta"));
   metaDescr.attr("name", "description");
-  linkImage = $(document.createElement("link"));
+  var linkImage = $(document.createElement("link"));
   linkImage.attr("rel", "image_src");
   linkImage.attr("href", "images/logo.gif");
   */
   GM_setValue("current_thread_subject", threadTopic);
 
-  usersInThread = []; postsInThread = [];
+  var usersInThread = [], postsInThread = [];
 
   if (debugMode) {
     console.groupCollapsed("Scaffolding posts");
@@ -457,7 +450,7 @@ function scaffoldThread() {
   // We'll class each post up so the data we want later will be easier to
   // address.
   postRows.each(function () {
-    post = scaffoldPost($(this));
+    var post = scaffoldPost($(this));
     postsInThread.push(post);
     usersInThread.push(post.author); // Blocking is faster with a separate array.
   });
@@ -468,7 +461,7 @@ function scaffoldThread() {
   }
   /*
    * Again, future sharing.
-  threadDescr = $("div.post_message_content:first").text();
+  var threadDescr = $("div.post_message_content:first").text();
   metaDescr.attr("content", threadDescr);
 
   $("head").append(metaTitle).append(metaDescr).append(linkImage);
@@ -482,9 +475,9 @@ function scaffoldThread() {
    * For future voting.
    *
   $(".vote_link").bind("click", function () {
-    var voteValues = $(this).attr("id").split("_"), post = voteValues[1], vote = voteValues[0];
-    var thread = GM_getValue("current_thread_id"), page = GM_getValue("current_thread_page");
-    var section = GM_getValue("current_section_id"), voter = GM_getValue("username");
+    var voteValues = $(this).attr("id").split("_"), post = voteValues[1], vote = voteValues[0],
+      thread = GM_getValue("current_thread_id"), page = GM_getValue("current_thread_page"),
+      section = GM_getValue("current_section_id"), voter = GM_getValue("username");
     $.get('http://lolibrary.org/bww/vote.php', { post: post, vote: vote, thread: thread, voter: voter, section: section, page: page });
   });
 
@@ -494,6 +487,8 @@ function scaffoldThread() {
     }
   }, true);
   */
+  removeInlineFrames();
+  applyMediaEnhancements();
   uniqueUsers = filterUniquesInArray(usersInThread);
   blockUsersInThread(uniqueUsers);
   if (debugMode) {
@@ -503,16 +498,16 @@ function scaffoldThread() {
 }
 
 function scaffoldPhotoPage() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding photo page");
   }
-  photoImg = $('img#ctl00_imgPhoto'), photoTitle = document.title.substr(6);
+  var photoImg = $('img#ctl00_imgPhoto'), photoTitle = document.title.substr(6);
   photoImg.attr("alt", photoTitle);
 
-  tempParams = (location.search).match(/user=\d+/); photoUserID = tempParams[0].split("=")[1];
-    photoUsername = $('#ctl00_folderCrumbs').text(); photoOwner = new User(photoUsername, photoUserID);
-    prevLink = $('#ctl00_prevLink').attr('href'); nextLink = $('#ctl00_nextLink').attr('href');
+  var tempParams = (location.search).match(/user=\d+/), photoUserID = tempParams[0].split("=")[1],
+    photoUsername = $('#ctl00_folderCrumbs').text(), photoOwner = new User(photoUsername, photoUserID),
+    prevLink = $('#ctl00_prevLink').attr('href'), nextLink = $('#ctl00_nextLink').attr('href');
 
   if (nextLink) {
     photoImg.bind('click', function () {
@@ -532,7 +527,7 @@ function scaffoldPhotoPage() {
 }
 
 function wolfWebDialog(id, title, content) {
-  //'use strict';
+  'use strict';
   return '<table id="' + id +
    '" class="bar tww_script_dialog" cellspacing="0" cellpadding="3" style="position: absolute; z-index: 50; display: none;">' +
    '<thead><tr><th style="text-align: left;">' + title + '</th></tr></thead><tbody><tr><td>' +
@@ -541,17 +536,16 @@ function wolfWebDialog(id, title, content) {
 }
 
 function scaffoldUserProfile() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding profile");
   }
-  parameters = JSON.parse(GM_getValue("current_parameters")); userID = parameters.user;
-    userName = $("td.rightbold:contains('Username')").next().text(); currentUser = new User(userName, userID);
-
+  var parameters = JSON.parse(GM_getValue("current_parameters")), userID = parameters.user,
+    userName = $("td.rightbold:contains('Username')").next().text(), currentUser = new User(userName, userID),
     userProfileBody = $("#ctl00_tblInfo tbody").attr("id", "user_profile_body");
   addBlockLink(currentUser);
   // userProfileBody.append('<tr><td class="medium" align="center" colspan="2"><a id="block_link" href="#">opa</a></td></tr>');
-  userProfileRows = userProfileBody.children();
+  var userProfileRows = userProfileBody.children();
   userProfileRows.filter(":even").attr("bgcolor", "#E3E3E3");
   userProfileRows.filter(":odd").attr("bgcolor", "");
 
@@ -563,15 +557,15 @@ function scaffoldUserProfile() {
 }
 
 function scaffoldUserList() {
-  //'use strict';
+  'use strict';
   if (debugMode) {
     console.groupCollapsed("Scaffolding user list");
   }
   $('table.inbar:last').attr("id", "users_list");
-  userRows = $('table#users_list tr');
+  var userRows = $('table#users_list tr');
   userRows.each(function () {
-    userRow = $(this); userLink = userRow.children().eq(1).children(); userNum = userLink.attr("href").split('=');
-      userName = userLink.text(); postsCell = userRow.children().eq(3);
+    var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.attr("href").split('='),
+      userName = userLink.text(), postsCell = userRow.children().eq(3);
     if (postsCell.text() !== '0 posts') {
       postsCell.wrapInner('<a class="plain search_posts_link" title="Search for ' + userName +
                           '\'s posts" href="message_search.aspx?type=posts&amp;username=' + encodeURI(userName) + "></a>");
@@ -587,17 +581,17 @@ function scaffoldUserList() {
  * Greasemonkey preferences.
  */
 function scaffoldSettingsPage() {
-  //'use strict';
-  settingsBody = $("#ctl00_lnkUser").parent().parent().parent();
+  'use strict';
+  var settingsBody = $("#ctl00_lnkUser").parent().parent().parent();
   settingsBody.append('<tr><td>&nbsp;Better Wolf Web Settings</td></tr>');
   settingsBody.append('<tr><td><form action="javascript:return(false);" id="bww_settings_form" name="bww_settings_form">' +
                       '<table cellspacing="0" cellpadding="6" border="0" style="width:100%;border-collapse:collapse;" ' +
                       'class="inbar" id="bww_settings_table"><tbody id="bww_settings_body"><tr id="debugmode" ' +
                       'style="background-color:#E3E3E3;"></tr></tbody></table></td></tr></form>');
-  debugModeRow = $("#debugmode");
+  var debugModeRow = $("#debugmode");
   debugModeRow.append('<td style="width:220px;white-space:nowrap;" class="rightbold">Debug Mode :</td>');
   debugModeRow.append('<td><input type="radio" name="debug_mode" value="true">On <input type="radio" name="debug_mode" value="false"> Off</td>');
-  debugMode = GM_getValue("debug_mode", false);
+  var debugMode = GM_getValue("debug_mode", false);
   $("input[name='debug_mode'][value='" + debugMode + "']").attr("checked", "true");
   //$("#bww_settings_body").append('<tr><td align="center><input type="submit" value="Save Preferences" class="button"></td></tr>');
 }

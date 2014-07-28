@@ -290,7 +290,7 @@ function scaffoldThreads() {
   //var section = GM_getValue('current_section_id'), threadIDs = [];
   //$.each(threadListing, function (key, value) {threadIDs.push(this.id);});
   //$.getJSON('http://lolibrary.org/bww/getvotes.php', {'threads[]': threadIDs, section: section }, function (json) {
-  //  if (json != null) {
+  //  if (json !== null) {
   //    $.each(json, function (key, value) {
   //      $('#thread_' + value).addClass('nsfw');
   //    });
@@ -416,7 +416,7 @@ function scaffoldThread() {
   parameters = JSON.parse(GM_getValue("current_parameters")); threadID = parameters.topic;
   GM_setValue("current_thread_id", threadID); // TODO: Necessary?
 
-  if (parameters.page != undefined) {
+  if (parameters.page !== undefined) {
     GM_setValue("current_thread_page", parameters.page);
   } else {
     GM_setValue("current_thread_page", 1);

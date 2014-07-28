@@ -28,6 +28,7 @@
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/bww.blocking.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/scaffold.js
 // @require     https://raw.githubusercontent.com/lewisje/Better-Wolf-Web/master/gm_jq_xhr.js
+// @noframes
 // @run-at      document-end
 // ==/UserScript==
 

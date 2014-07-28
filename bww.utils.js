@@ -4,15 +4,16 @@
  * TODO: Implement a case-insensitive sort.
  */
 function addGMValue(setting, string) {
-	if (debugMode) {
-		console.log("Adding value \"" + string + "\" to " + setting);
+  'use strict';
+  if (debugMode) {
+		console.log('Adding value "' + string + '" to ' + setting);
 	}
 
-	oldValues = JSON.parse(GM_getValue(setting));
+	var oldValues = JSON.parse(GM_getValue(setting));
 	oldValues = oldValues.push(string);
 	oldValues.sort();
 
-	newValues = JSON.stringify(oldValues);
+	var newValues = JSON.stringify(oldValues);
 	GM_setValue(setting, newValues);
 
 	if (debugMode) {
@@ -24,7 +25,8 @@ function addGMValue(setting, string) {
  * Returns an anchor element created with the supplied parameters.
  */
 function createLink(href, text, parameters) {
-	newLink = $(document.createElement('a'));
+  'use strict';
+	var newLink = $(document.createElement('a'));
 
 	newLink.attr("href", href);
 	newLink.text(text);
@@ -33,10 +35,10 @@ function createLink(href, text, parameters) {
 	 * If a title has been provided in the parameters array, set it on the an-
 	 * chor element. Otherwise, default to the link text.
 	 */
-	title = (parameters['title'] != undefined) ? parameters['title'] : text;
+	var title = (parameters['title'] !== undefined) ? parameters['title'] : text;
 	newLink.attr("title", title);
 
-	if (parameters['classes'] == undefined) {
+	if (parameters['classes'] === undefined) {
 		newLink.addClass("plain"); // This is a Wolf Web style.
 	} else {
 		/*
@@ -50,14 +52,14 @@ function createLink(href, text, parameters) {
 		);
 	}
 
-	if (parameters['attributes'] != undefined) {
+	if (parameters['attributes'] !== undefined) {
 		/*
 		 * If an associative array of attributes has been passed in the pa-
 		 * rameters, apply them to the link. I don't check whether they're
 		 * valid for anchors--that's the browser's problem.
 		 */
-		attributes = parameters['attributes']; // TODO: Unnecessary assignment?
-		for (var key in attributes) {
+		var key, attributes = parameters['attributes']; // TODO: Unnecessary assignment?
+		for (key in attributes) {
 			newLink.attr(key, attributes[key]);
 		}
 	}
@@ -69,8 +71,8 @@ function createLink(href, text, parameters) {
  * Given an array, returns a new array of only the unique members.
  */
 function filterUniquesInArray(array) {
-	var arrayOfUniques = [];
-	var arrayLength = array.length;
+  'use strict';
+	var arrayOfUniques = [], arrayLength = array.length;
 
 	for (var i = 0; i < arrayLength; i++) {
 		for (var j = i + 1; j < arrayLength; j++) {
@@ -89,6 +91,7 @@ function filterUniquesInArray(array) {
  * in the blocking library.
  */
 function filterUniqueUsers(users) {
+  'use strict';
 	return filterUniquesInArray(users);
 }
 
@@ -97,6 +100,7 @@ function filterUniqueUsers(users) {
  * in a Greasemonkey value for convenient use in other functions.
  */
 function getURLParameters() {
+  'use strict';
 	if (debugMode) {
 		console.groupCollapsed("URL parameters");
 	}
@@ -105,15 +109,15 @@ function getURLParameters() {
 
 	// A bit hackish.
 	if (location.href.indexOf("#") > -1) {
-    	location.assign(location.href.replace(/\/?#\//, "/"));
+    location.assign(location.href.replace(/\/?#\//, "/"));
 	}
 
 	location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-		setting = value.split("#")[0]; // Haaaaaaaaaack.
+		var setting = value.split("#")[0]; // Haaaaaaaaaack.
 		parametersArray[key] = setting;
 	});
 
-	parameters = JSON.stringify(parametersArray);
+	var parameters = JSON.stringify(parametersArray);
 	GM_setValue("current_parameters", parameters);
 
 	if (debugMode) {
@@ -128,11 +132,10 @@ function getURLParameters() {
  * TODO: Might be faster done inline while processing posts.
  */
 function removeInlineFrames() {
-	inlineFrames = $('.post_message_content iframe');
+  'use strict';
+	var inlineFrames = $('.post_message_content iframe');
 	inlineFrames.each(function(){
-		iFrame = $(this);
-		iFrameURL = iFrame.attr("src");
-		iFrameLink = createLink(iFrameURL, iFrameURL, {target: "new"});
+		var iFrame = $(this), iFrameURL = iFrame.attr("src"), iFrameLink = createLink(iFrameURL, iFrameURL, {target: "new"});
 		iFrame.replaceWith(iFrameLink);
 	});
 }

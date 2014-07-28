@@ -4,7 +4,7 @@ function User(username, userid) {
   this.userid = parseInt(userid, 10);
 }
 
-User.prototype.userLink = function() {
+User.prototype.userLink = function () {
   'use strict';
   var userLink = $(document.createElement('a'));
   userLink.attr("href", "user_info.aspx?user=" + this.userid);
@@ -14,12 +14,12 @@ User.prototype.userLink = function() {
   return userLink;
 };
 
-User.prototype.postsLink = function() {
+User.prototype.postsLink = function () {
   'use strict';
   var postsLink = $(document.createElement('a'));
   postsLink.addClass("plain search_posts_link");
-  postsLink.attr("title", "Search for " + userName + "'s posts");
-  postsLink.attr("href", "message_search.aspx?type=posts&amp;username=" + encodeURI(userName));
+  postsLink.attr("title", "Search for " + this.username + "'s posts");
+  postsLink.attr("href", "message_search.aspx?type=posts&amp;username=" + encodeURI(this.username));
   return postsLink;
 };
 
@@ -34,8 +34,7 @@ function Thread(threadid, topic, author, authorid, section) {
   'use strict';
   this.id = threadid;
   this.topic = topic;
-  this.author = author;
-  this.authorid = authorid;
+  this.author = new User(author, authorid);
   this.section = section;
 }
 

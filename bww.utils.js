@@ -6,19 +6,19 @@
 function addGMValue(setting, string) {
   'use strict';
   if (debugMode) {
-		console.log('Adding value "' + string + '" to ' + setting);
-	}
+    console.log('Adding value "' + string + '" to ' + setting);
+  }
 
-	var oldValues = JSON.parse(GM_getValue(setting));
-	oldValues = oldValues.push(string);
-	oldValues.sort();
+  var oldValues = JSON.parse(GM_getValue(setting));
+  oldValues = oldValues.push(string);
+  oldValues.sort();
 
-	var newValues = JSON.stringify(oldValues);
-	GM_setValue(setting, newValues);
+  var newValues = JSON.stringify(oldValues);
+  GM_setValue(setting, newValues);
 
-	if (debugMode) {
-		console.dir(newValues);
-	}
+  if (debugMode) {
+    console.dir(newValues);
+  }
 }
 
 /*
@@ -26,45 +26,45 @@ function addGMValue(setting, string) {
  */
 function createLink(href, text, parameters) {
   'use strict';
-	var newLink = $(document.createElement('a'));
+  var newLink = $(document.createElement('a'));
 
-	newLink.attr("href", href);
-	newLink.text(text);
+  newLink.attr("href", href);
+  newLink.text(text);
 
-	/*
-	 * If a title has been provided in the parameters array, set it on the an-
-	 * chor element. Otherwise, default to the link text.
-	 */
-	var title = (parameters['title'] !== undefined) ? parameters['title'] : text;
-	newLink.attr("title", title);
+  /*
+   * If a title has been provided in the parameters array, set it on the an-
+   * chor element. Otherwise, default to the link text.
+   */
+  var title = (parameters.title !== undefined) ? parameters.title : text;
+  newLink.attr("title", title);
 
-	if (parameters['classes'] === undefined) {
-		newLink.addClass("plain"); // This is a Wolf Web style.
-	} else {
-		/*
-		 * Apply each class in the classes array passed as part of the pa-
-		 * rameters to the link.
-		 */
-		parameters['classes'].forEach(
-			function(element, index, array) {
-				newLink.addClass(element);
-			}
-		);
-	}
+  if (parameters.classes === undefined) {
+    newLink.addClass("plain"); // This is a Wolf Web style.
+  } else {
+    /*
+     * Apply each class in the classes array passed as part of the pa-
+     * rameters to the link.
+     */
+    parameters.classes.forEach(
+      function(element, index, array) {
+        newLink.addClass(element);
+      }
+    );
+  }
 
-	if (parameters['attributes'] !== undefined) {
-		/*
-		 * If an associative array of attributes has been passed in the pa-
-		 * rameters, apply them to the link. I don't check whether they're
-		 * valid for anchors--that's the browser's problem.
-		 */
-		var key, attributes = parameters['attributes']; // TODO: Unnecessary assignment?
-		for (key in attributes) {
-			newLink.attr(key, attributes[key]);
-		}
-	}
+  if (parameters.attributes !== undefined) {
+    /*
+     * If an associative array of attributes has been passed in the pa-
+     * rameters, apply them to the link. I don't check whether they're
+     * valid for anchors--that's the browser's problem.
+     */
+    var key, attributes = parameters.attributes; // TODO: Unnecessary assignment?
+    for (key in attributes) {
+      newLink.attr(key, attributes[key]);
+    }
+  }
 
-	return newLink;
+  return newLink;
 }
 
 /*
@@ -72,18 +72,18 @@ function createLink(href, text, parameters) {
  */
 function filterUniquesInArray(array) {
   'use strict';
-	var arrayOfUniques = [], arrayLength = array.length;
+  var arrayOfUniques = [], arrayLength = array.length;
 
-	for (var i = 0; i < arrayLength; i++) {
-		for (var j = i + 1; j < arrayLength; j++) {
-			if (array[i] === array[j])
-				j = ++i;
-		}
+  for (var i = 0; i < arrayLength; i++) {
+    for (var j = i + 1; j < arrayLength; j++) {
+      if (array[i] === array[j])
+        j = ++i;
+    }
 
-		arrayOfUniques.push(array[i]);
-	}
+    arrayOfUniques.push(array[i]);
+  }
 
-	return arrayOfUniques;
+  return arrayOfUniques;
 }
 
 /*
@@ -92,7 +92,7 @@ function filterUniquesInArray(array) {
  */
 function filterUniqueUsers(users) {
   'use strict';
-	return filterUniquesInArray(users);
+  return filterUniquesInArray(users);
 }
 
 /*
@@ -101,29 +101,29 @@ function filterUniqueUsers(users) {
  */
 function getURLParameters() {
   'use strict';
-	if (debugMode) {
-		console.groupCollapsed("URL parameters");
-	}
+  if (debugMode) {
+    console.groupCollapsed("URL parameters");
+  }
 
-	var parametersArray = {};
+  var parametersArray = {};
 
-	// A bit hackish.
-	if (location.href.indexOf("#") > -1) {
+  // A bit hackish.
+  if (location.href.indexOf("#") > -1) {
     location.assign(location.href.replace(/\/?#\//, "/"));
-	}
+  }
 
-	location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-		var setting = value.split("#")[0]; // Haaaaaaaaaack.
-		parametersArray[key] = setting;
-	});
+  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+    var setting = value.split("#")[0]; // Haaaaaaaaaack.
+    parametersArray[key] = setting;
+  });
 
-	var parameters = JSON.stringify(parametersArray);
-	GM_setValue("current_parameters", parameters);
+  var parameters = JSON.stringify(parametersArray);
+  GM_setValue("current_parameters", parameters);
 
-	if (debugMode) {
-		console.dir(parametersArray);
-		console.groupEnd("URL parameters");
-	}
+  if (debugMode) {
+    console.dir(parametersArray);
+    console.groupEnd("URL parameters");
+  }
 }
 
 /*
@@ -133,11 +133,11 @@ function getURLParameters() {
  */
 function removeInlineFrames() {
   'use strict';
-	var inlineFrames = $('.post_message_content iframe').not("[src*=youtube]").not("[src*=youtu.be]").not("[src*=dailymotion.com]").not("[src*=facebook.com]").not("[src*=myspace.com]").not("[src*=vimeo.com]");
-	inlineFrames.each(function(){
-		var iFrame = $(this), iFrameURL = iFrame.attr("src"), iFrameLink = createLink(iFrameURL, iFrameURL, {target: "new"});
-		if (iFrameURL.match(/(maps\.(google|yahoo)\.com|openstreetmap\.org\/export\/embed|bing\.com\/maps|mapquest\.com\/embed|tiles\.mapbox\.com)/) === null) {
-		  iFrame.replaceWith(iFrameLink);
-	  }
-	});
+  var inlineFrames = $('.post_message_content iframe').not("[src*=youtube]").not("[src*=youtu.be]").not("[src*=dailymotion.com]").not("[src*=facebook.com]").not("[src*=myspace.com]").not("[src*=vimeo.com]");
+  inlineFrames.each(function(){
+    var iFrame = $(this), iFrameURL = iFrame.attr("src"), iFrameLink = createLink(iFrameURL, iFrameURL, {target: "new"});
+    if (iFrameURL.match(/(maps\.(google|yahoo)\.com|openstreetmap\.org\/export\/embed|bing\.com\/maps|mapquest\.com\/embed|tiles\.mapbox\.com)/) === null) {
+      iFrame.replaceWith(iFrameLink);
+    }
+  });
 }

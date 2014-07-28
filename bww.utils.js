@@ -112,8 +112,8 @@ function getURLParameters() {
     location.assign(location.href.replace(/\/?#\//, "/"));
   }
 
-  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-    var setting = value.split("#")[0]; // Haaaaaaaaaack.
+  location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+    var setting = value.split("#")[0]; // Hack
     parametersArray[key] = setting;
   });
 

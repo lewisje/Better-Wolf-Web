@@ -133,7 +133,7 @@ function getURLParameters() {
  */
 function removeInlineFrames() {
   'use strict';
-	var inlineFrames = $('.post_message_content iframe').not("[src*=youtube]").not("[src*=youtu.be]").not("[src*=dailymotion.com]").not("[src*=facebook.com]");
+	var inlineFrames = $('.post_message_content iframe').not("[src*=youtube]").not("[src*=youtu.be]").not("[src*=dailymotion.com]").not("[src*=facebook.com]").not("[src*=myspace.com]").not("[src*=vimeo.com]");
 	inlineFrames.each(function(){
 		var iFrame = $(this), iFrameURL = iFrame.attr("src"), iFrameLink = createLink(iFrameURL, iFrameURL, {target: "new"});
 		if (iFrameURL.match(/(maps\.(google|yahoo)\.com|openstreetmap\.org\/export\/embed|bing\.com\/maps|mapquest\.com\/embed|tiles\.mapbox\.com)/) === null) {

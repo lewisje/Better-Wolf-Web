@@ -73,6 +73,18 @@ function checkLogin() {
   }
 }
 
+function createWolfLink() {
+  'use  strict';
+  var wolflink = $('a').eq(0).attr("id", "wolflink"), logo = wolflink.children("img").attr("id", "logo");
+  wolflink.replaceWith(logo);
+  logo.after(wolfWebDialog('blocked_users_dialog', 'Blocked users', ''));
+  logo.bind("click", function() {
+    renderBlockedUsers('#blocked_users_dialog_content');
+    $('#blocked_users_dialog').slideToggle('fast');
+    return false;
+  });
+}
+
 /*
  * This procedure handles header & footer scaffolding common to all pages as
  * well as some standard script set-up.
@@ -86,7 +98,7 @@ function scaffoldCommonElements() {
   getURLParameters();
   //addStyles();
   checkLogin();
-  //createWolfLink();
+  createWolfLink();
 
   if (debugMode) {
     console.groupEnd("Common elements");
@@ -147,9 +159,9 @@ function scaffoldMessageBoards() {
     boardCells.eq(0).addClass('board_status');
     var boardName = boardCells.eq(1).addClass('board_name').children("a:first").text();
     boardCells.eq(2).addClass('board_topics');
-    var sectionLink = boardCells.eq(1).children("a:first");
-    var threadLink = boardCells.eq(3).addClass('board_last_post').children('a:first').addClass('thread_link');
-    var userLink = boardCells.eq(3).children('a:last').addClass('user_link');
+    var sectionLink = boardCells.eq(1).children("a:first"),
+      threadLink = boardCells.eq(3).addClass('board_last_post').children('a:first').addClass('thread_link'),
+      userLink = boardCells.eq(3).children('a:last').addClass('user_link');
 
     var sectionNum = sectionLink.attr("href").split("=");
     sectionNum = sectionNum[1].split("&")[0];
@@ -168,6 +180,9 @@ function scaffoldMessageBoards() {
       new Thread(threadNum, threadTopic, userName, userNum, sectionNum)
     );
   });
+
+  buildSearchForm();
+  blockUsersInboardList();
 
   if (debugMode) {
     console.timeEnd("Scaffolding section rows");
@@ -267,6 +282,23 @@ function scaffoldThreads() {
     $(this).parent().parent().addClass("locked");
   });
 
+  $("body").append('<style>.nsfw_tag{-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;border:1px solid #D27979!important;' +
+                   'color:#AC3939;font-size:x-small;padding:0 2px;text-decoration:none;margin-right:-32px}</style>');
+  buildSearchForm();
+  blockUsersInThreadsList();
+  // future voting
+  //var section = GM_getValue('current_section_id'), threadIDs = [];
+  //$.each(threadListing, function (key, value) {threadIDs.push(this.id);});
+  //$.getJSON('http://lolibrary.org/bww/getvotes.php', {'threads[]': threadIDs, section: section }, function (json) {
+  //  if (json !== null) {
+  //    $.each(json, function (key, value) {
+  //      $('#thread_' + value).addClass('nsfw');
+  //    });
+  //    $('.nsfw').attr('bgcolor', '').css('backgroundColor','#ffb2b2');
+  //    $('.nsfw').find('td:first-child a').html('<abbr class="nsfw_tag" title="Not Safe For Work">nsfw</abbr>');
+  //  }
+  //});
+
   if (debugMode) {
     console.groupEnd("Scaffolding threads");
   }
@@ -321,8 +353,8 @@ function scaffoldPost(post) {
   
   var userLink = authorCell.children("span").children("a[href*='user_info']");
   userLink.addClass("user_link");
-  var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1];
-  var parentSpan = userLink.parent(), userName = parentSpan.parent().children().filter("b:first").text();
+  var userLinkURL = userLink.attr("href"), userID = userLinkURL.split("=")[1], parentSpan = userLink.parent(),
+    userName = parentSpan.parent().children().filter("b:first").text();
   userLink.attr("title", userName);
   userLink.data("userid", userID);
   var sendPM = createLink("mail_compose.aspx?user=" + userID, "send PM", {
@@ -356,6 +388,9 @@ function scaffoldPost(post) {
 
   postFooter.appendTo('#footer_' + postID + ' > td:first-child').parent().css("height", "15px").attr("bgcolor", postBackgroundColor);
   postBody.appendTo("#tww_post_table");
+
+  removeInlineFrames();
+  applyMediaEnhancements();
 
   var scaffoldedPost = new Post(postID, postText, userName, userID);
   if (debugMode) {
@@ -412,7 +447,7 @@ function scaffoldThread() {
   */
   GM_setValue("current_thread_subject", threadTopic);
 
-  var usersInThread, postsInThread = [];
+  var usersInThread = [], postsInThread = [];
 
   if (debugMode) {
     console.groupCollapsed("Scaffolding posts");
@@ -421,7 +456,7 @@ function scaffoldThread() {
 
   // We'll class each post up so the data we want later will be easier to
   // address.
-  postRows.each(function() {
+  postRows.each(function () {
     var post = scaffoldPost($(this));
     postsInThread.push(post);
     usersInThread.push(post.author); // Blocking is faster with a separate array.
@@ -441,7 +476,7 @@ function scaffoldThread() {
 
   $("#tww_post_table > tbody:first-child").remove();
 
-  //parseImagesInThread();
+  parseImagesInThread();
 
   /*
    * For future voting.
@@ -459,10 +494,12 @@ function scaffoldThread() {
     }
   }, true);
   */
+  var uniqueUsers = filterUniquesInArray(usersInThread);
+  blockUsersInThread(uniqueUsers);
   if (debugMode) {
     consoleGroupEnd("Scaffolding thread");
   }
-  return [postsInThread, filterUniquesInArray(usersInThread)];
+  return [postsInThread, uniqueUsers];
 }
 
 function wolfWebDialog(id, title, content) {
@@ -483,16 +520,37 @@ function scaffoldUserProfile() {
   var userName = $("td.rightbold:contains('Username')").next().text(), currentUser = new User(userName, userID);
 
   var userProfileBody = $("#ctl00_tblInfo tbody").attr("id", "user_profile_body");
+  addBlockLink(currentUser);
   // userProfileBody.append('<tr><td class="medium" align="center" colspan="2"><a id="block_link" href="#">opa</a></td></tr>');
   var userProfileRows = userProfileBody.children();
-  //userProfileRows.filter(":even").attr("bgcolor", "#E3E3E3");
-  //userProfileRows.filter(":odd").attr("bgcolor", "");
+  userProfileRows.filter(":even").attr("bgcolor", "#E3E3E3");
+  userProfileRows.filter(":odd").attr("bgcolor", "");
 
   if (debugMode) {
     console.dir(currentUser);
     console.groupEnd("Scaffolding profile");
   }
   return currentUser;
+}
+
+function scaffoldUserList() {
+  'use strict';
+  if (debugMode) {
+    console.groupCollapsed("Scaffolding user list");
+  }
+  $('table.inbar:last').attr("id", "users_list");
+	var userRows = $('table#users_list tr');
+	userRows.each(function () {
+		var userRow = $(this), userLink = userRow.children().eq(1).children(), userNum = userLink.attr("href").split('='),
+		  userName = userLink.text(), postsCell = userRow.children().eq(3);
+		if (postsCell.text() !== '0 posts') {
+			postsCell.wrapInner('<a class="plain search_posts_link" title="Search for ' + userName +
+			                    '\'s posts" href="message_search.aspx?type=posts&amp;username=' + encodeURI(userName) + "></a>");
+		}
+	});
+  if (debugMode) {
+    console.groupEnd("Scaffolding user list");
+  }
 }
 
 /*
@@ -517,21 +575,20 @@ function parsePhotoPage() {
   var photoImg = $('img#ctl00_imgPhoto'), photoTitle = document.title.substr(6);
   photoImg.attr("alt", photoTitle);
 
-  var tempParams = (location.search).match(/user=\d+/), photoUserID = tempParams[0].split("=")[1];
-  var photoUsername = $('#ctl00_folderCrumbs').text(), photoOwner = new User(photoUsername, photoUserID);
-
-  var prevLink = $('#ctl00_prevLink').attr('href'), nextLink = $('#ctl00_nextLink').attr('href');
+  var tempParams = (location.search).match(/user=\d+/), photoUserID = tempParams[0].split("=")[1],
+    photoUsername = $('#ctl00_folderCrumbs').text(), photoOwner = new User(photoUsername, photoUserID),
+    prevLink = $('#ctl00_prevLink').attr('href'), nextLink = $('#ctl00_nextLink').attr('href');
 
   if (nextLink) {
-    photoImg.bind('click', function(){
+    photoImg.bind('click', function () {
       window.location = nextLink;
     });
   }
 
-  $(window).keypress(function(e) {
+  $(window).keypress(function (e) {
     switch(e.keyCode) {
-      case 37: { if (prevLink) { window.location = prevLink; } return false; }
-      case 39: { if (nextLink) { window.location = nextLink; } return false; }
+      case 37: {if (prevLink) {window.location = prevLink;} return false;}
+      case 39: {if (nextLink) {window.location = nextLink;} return false;}
     }
   });
 }

@@ -35,7 +35,7 @@
 if (window.top !== window.self) {
   $.noop(); // Don't run the script if the page is in an iframe.
 } else {
-  debugMode = GM_getValue('debug_mode', false);
+  debugMode = GM_getValue('debug_mode', true);
 
   if (debugMode) {
     console.group('Better Wolf Web');
